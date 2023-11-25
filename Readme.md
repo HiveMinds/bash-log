@@ -1,34 +1,36 @@
 # Unit tested Bash project template with Pre-commit
 
-Call this dependency from another bash script to safely install and remove:
+Based on the idea of [b-log](https://github.com/idelsink/b-log).
+Which is based on the idea of [log.sh](https://github.com/livibetter-backup/log.sh).
 
-- pip
-- apt
-- snap
-  packages
+Call this dependency from another bash script to have a decent logger with
+minimal boiler plate code in the other repo.
+
+Instructions on how to use the logger can be found [here](examples/Usage.md).
+The instructions below explain how to include this dependency in other repos.
 
 ## Install this bash dependency in other repo
 
 - In your other repo, include a file named: `.gitmodules` that includes:
 
 ```sh
-[submodule "dependencies/package_installer"]
- path = dependencies/package_installer
- url = https://github.com/hiveminds/bash-package-installer
+[submodule "dependencies/bash-log"]
+ path = dependencies/bash-log
+ url = https://github.com/hiveminds/bash-log
 ```
 
 - Create a file named `install_dependencies.sh` with content:
 
 ```sh
 # Remove the submodules if they were still in the repo.
-git rm --cached dependencies/package_installer/bash-package-installer
+git rm --cached dependencies/bash-log/bash-log
 
 # Remove and re-create the submodule directory.
-rm -r dependencies/package_installer/bash-package-installer
-mkdir -p dependencies/package_installer/bash-package-installer
+rm -r dependencies/bash-log/bash-log
+mkdir -p dependencies/bash-log/bash-log
 
 # (Re) add the BATS submodules to this repository.
-git submodule add --force https://github.com/hiveminds/bash-package-installer dependencies/package_installer/bash-package-installer
+git submodule add --force https://github.com/hiveminds/bash-log dependencies/bash-log/bash-log
 
 # Update all submodules
 git submodule update --remote --recursive
@@ -49,7 +51,9 @@ After including this dependency you can use the functions in this module like:
 #!/bin/bash
 
 # Load the installer dependency.
-source dependencies/package_installer/bash-package-installer/src/main.sh
+source dependencies/bash-log/src/main.sh
+LOG_LEVEL_ALL # set log level to all, otherwise, NOTICE, INFO, DEBUG, TRACE will not be logged.
+B_LOG --file log/multiple-outputs.txt --file-prefix-enable --file-suffix-enable
 
 # Call the desired installation functions.
 ensure_apt_pkg "curl" 1

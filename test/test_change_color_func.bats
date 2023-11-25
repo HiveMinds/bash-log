@@ -10,7 +10,7 @@ load 'libs/bats-assert/load'
 @test "change_color changes the text color" {
 
   # Load the function that is to be tested.
-  source src/logging/cli_logging.sh
+  source src/cli_logging.sh
 
   # Test setting text color to 1 (red)
   result="$(change_color 1)"

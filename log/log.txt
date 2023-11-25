@@ -1,0 +1,8 @@
+[1;31m[2023-11-25 22:17:48.102][ERROR ][main:33 ] error level[0m
+[1;33m[2023-11-25 22:17:48.109][WARN  ][main:34 ] warning level[0m
+[1;32m[2023-11-25 22:17:48.115][NOTICE][main:35 ] notice level[0m
+[37m[2023-11-25 22:17:48.122][INFO  ][main:36 ] info level[0m
+[1;34m[2023-11-25 22:17:48.128][DEBUG ][main:37 ] debug level[0m
+[94m[2023-11-25 22:17:48.132][TRACE ][main:38 ] trace level[0m
+[37m[2023-11-25 22:17:48.137][INFO  ][main:40 ] piped into INFO[0m
+[95m[2023-11-25 22:17:48.142][EXAMPLE][main:43] custom log level[0m
