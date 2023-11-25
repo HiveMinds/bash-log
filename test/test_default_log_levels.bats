@@ -4,7 +4,7 @@ load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 
 # Load the script under test
-load ../src/file_logging.sh
+load ../src/bash_logger.sh
 
 @test "Log messages at default log levels" {
   LOG_LEVEL_ALL # set log level to all, otherwise, NOTICE, INFO, DEBUG, TRACE will not be logged.
