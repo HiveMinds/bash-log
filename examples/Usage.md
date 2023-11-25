@@ -1,8 +1,4 @@
-# bash logger
-
-A library for custom logging in bash called '**[b-log](https://github.com/idelsink/b-log)**'.
-
-b-log
+# Bash-Log Usage
 
 ## Features
 
@@ -17,11 +13,11 @@ This library has the following features:
 ## Examples
 
 Some small examples to show the basic usage.
-For a simple complete example, see the [example.sh](./examples/example.sh) file.
+For a simple complete example, see the [example.sh](./example.sh) file.
 
 ### 01 Basic example
 
-See [this](./examples/01_basic_example.sh) file.
+See [this](./01_basic_example.sh) file.
 
 ```bash
 #!/usr/bin/env bash
@@ -42,7 +38,7 @@ Terminal output:
 
 ### 02 Log to file and syslog
 
-See [this](./examples/02_log_to_file_and_syslog.sh) file.
+See [this](./02_log_to_file_and_syslog.sh) file.
 
 ```bash
 #!/usr/bin/env bash
@@ -67,7 +63,7 @@ Terminal output:
 
 ### 03 Custom template
 
-See [this](./examples/03_custom_level_and_template.sh) file.
+See [this](./03_custom_level_and_template.sh) file.
 
 ```bash
 #!/usr/bin/env bash
@@ -92,6 +88,7 @@ WARN "all the normal levels still work, with the new date-format of course"
 ```
 
 Terminal output:
+
 ![Example 03](./03_custom_level_and_template.png "Example 03 output")
 
 ## Usage
@@ -255,7 +252,7 @@ The items used in this template are:
 - line number, size 3
 - log message, no limit
 
-The output would be (taken from [example 01](./examples/01_basic_example.sh)):
+The output would be (taken from [example 01](./01_basic_example.sh)):
 
 ```text
 [2016-07-02 18:46:02.005][INFO ][main:8  ] info level
@@ -281,10 +278,4 @@ LOG_LEVELS+=("50" "EXAMPLE" "[@23:1@][@5:2@][@3@:@3:4@] @5@" "\e[37m" "\e[0m")
 LOG_LEVELS+=("50" "EXAMPLE" "$B_LOG_DEFAULT_TEMPLATE" "\e[37m" "\e[0m")
 ```
 
-See also [this](./examples/03_custom_level_and_template.sh) example file.
-
-## License
-
-> You can check out the full license [here](./LICENSE)
-
-This project is licensed under the terms of the **MIT** license.
+See also [this](./03_custom_level_and_template.sh) example file.
