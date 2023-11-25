@@ -55,23 +55,26 @@ source dependencies/bash-log/src/main.sh
 # set log level to all, otherwise, NOTICE, INFO, DEBUG, TRACE won't be logged.
 LOG_LEVEL_ALL
 
+# You can make it log to file using:
 B_LOG --file log/multiple-outputs.txt --file-prefix-enable --file-suffix-enable
 
-# Call the desired installation functions.
-ensure_apt_pkg "curl" 1
-ensure_snap_pkg "brave"
-ensure_pip_pkg "twine" 1
+# You can silence the console logging with (by default it is true):
+#B_LOG --stdout false # disable logging over stdout
 
-
-# Call the desired installation functions.
-apt_remove "curl" 0
-snap_remove "brave"
-pip_remove "twine" 1
+FATAL   "fatal level"
+ERROR   "error level"
+WARN    "warning level"
+NOTICE  "notice level"
+INFO    "info level"
+DEBUG   "debug level"
+TRACE   "trace level"
 ```
 
-The `0` and `1` after the package name indicate whether it will update the
-package manager afterwards (`0` = no update, `1` = package manager update after
-installation/removal)
+That outputs:
+
+![Example 01](./examples/01_basic_example.png "Example 01 output")
+
+and creates a file with that log at: `log/multiple-outputs.txt`
 
 ## Testing
 
