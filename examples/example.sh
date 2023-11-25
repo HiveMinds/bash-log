@@ -4,15 +4,16 @@
 # Script Version: 0.0.1
 # Script Date: 30 June 2016
 #########################################################################
-# example of b-log.sh
+# example of bash_logger.sh
 #########################################################################
 # global parameters
 set -e          # kill script if a command fails
 set -o nounset  # unset values give error
 set -o pipefail # prevents errors in a pipeline from being masked
 
-script_path="$(dirname "$(realpath ${BASH_SOURCE[0]})")" # the path to the script
-source "${script_path}"/../src/file_logging.sh           # include the log script
+script_path="$(dirname "$(realpath "${BASH_SOURCE[0]}")")" # the path to the script
+# shellcheck disable=SC1091
+source "${script_path}"/../src/file_logging.sh # include the log script
 
 echo "--------------------------------------------------"
 echo "Example of"

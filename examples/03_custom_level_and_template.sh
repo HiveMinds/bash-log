@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 # example: 03 - custom log level and template
-source "$(dirname "$(realpath ${BASH_SOURCE[0]})")"/../src/file_logging.sh # include the script
-LOG_LEVEL_ALL                                                              # set log level to all
+# shellcheck disable=SC1091
+source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"/../src/file_logging.sh # include the script
+LOG_LEVEL_ALL                                                                # set log level to all
 FATAL "fatal level"
 ERROR "error level"
 WARN "warning level"

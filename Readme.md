@@ -52,7 +52,9 @@ After including this dependency you can use the functions in this module like:
 
 # Load the installer dependency.
 source dependencies/bash-log/src/main.sh
-LOG_LEVEL_ALL # set log level to all, otherwise, NOTICE, INFO, DEBUG, TRACE will not be logged.
+# set log level to all, otherwise, NOTICE, INFO, DEBUG, TRACE won't be logged.
+LOG_LEVEL_ALL
+
 B_LOG --file log/multiple-outputs.txt --file-prefix-enable --file-suffix-enable
 
 # Call the desired installation functions.

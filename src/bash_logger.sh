@@ -11,7 +11,12 @@
 # pronounced as 'bee log' or 'blog'... whatever you like.
 #########################################################################
 # include guard
-[ -n "${B_LOG_SH+x}" ] && return || readonly B_LOG_SH=1
+#[ -n "${B_LOG_SH+x}" ] && return || readonly B_LOG_SH=1
+if [ -n "${B_LOG_SH+x}" ]; then
+  return
+else
+  readonly B_LOG_SH=1
+fi
 
 # global parameters
 # default disable these settings
@@ -20,10 +25,11 @@
 #set -o pipefail # prevents errors in a pipeline from being masked
 
 B_LOG_APPNAME="b-log"
-B_LOG_VERSION=1.2.0
+B_LOG_VERSION=1.2.1
 
 # --- global variables ----------------------------------------------
 # log levels
+# shellcheck disable=SC2034
 readonly LOG_LEVEL_OFF=0      # none
 readonly LOG_LEVEL_FATAL=100  # unusable, crash
 readonly LOG_LEVEL_ERROR=200  # error conditions
@@ -66,6 +72,7 @@ LOG_LEVELS=(
   "${LOG_LEVEL_TRACE}" "TRACE" "${B_LOG_DEFAULT_TEMPLATE}" "\e[94m" "\e[0m"
 )
 # log levels columns
+# shellcheck disable=SC2034
 readonly LOG_LEVELS_LEVEL=0
 readonly LOG_LEVELS_NAME=1
 readonly LOG_LEVELS_TEMPLATE=2
@@ -91,7 +98,7 @@ function B_LOG_ERR() {
   local return_message=${2:=""}
   local prefix="\e[1;31m" # error color
   local suffix="\e[0m"    # error color
-  if [ $return_code -eq 1 ]; then
+  if [ "$return_code" -eq 1 ]; then
     echo -e "${prefix}${return_message}${suffix}"
   fi
 }
@@ -270,20 +277,20 @@ function B_LOG_convert_template() {
         log_layout_part=" "
         ;;
       7) # file name
-        log_layout_part="$(basename ${BASH_SOURCE[3]})"
+        log_layout_part="$(basename "${BASH_SOURCE[3]}")"
         ;;
       *)
         B_LOG_ERR '1' "unknown template parameter: '$selector'"
         log_layout_part=""
         ;;
     esac
-    if [ ${str_length} -gt 0 ]; then # custom string length
-      if [ ${str_length} -lt ${#log_layout_part} ]; then
+    if [ "${str_length}" -gt 0 ]; then # custom string length
+      if [ "${str_length}" -lt ${#log_layout_part} ]; then
         # smaller as string, truncate
         log_layout_part=${log_layout_part:0:str_length}
-      elif [ ${str_length} -gt ${#log_layout_part} ]; then
+      elif [ "${str_length}" -gt ${#log_layout_part} ]; then
         # bigger as string, append
-        printf -v log_layout_part "%-0${str_length}s" $log_layout_part
+        printf -v log_layout_part "%-0${str_length}s" "$log_layout_part"
       fi
     fi
     str_length=0 # set default
@@ -301,8 +308,8 @@ function B_LOG_print_message() {
   local err_ret_code=0
   B_LOG_TS=$(date +"${B_LOG_TS_FORMAT}") # get the date
   log_level=${1:-"$LOG_LEVEL_ERROR"}
-  if [ ${log_level} -gt ${LOG_LEVEL} ]; then         # check log level
-    if [ ! ${LOG_LEVEL} -eq ${LOG_LEVEL_ALL} ]; then # check log level
+  if [ "${log_level}" -gt "${LOG_LEVEL}" ]; then         # check log level
+    if [ ! "${LOG_LEVEL}" -eq "${LOG_LEVEL_ALL}" ]; then # check log level
       return 0
     fi
   fi
@@ -315,7 +322,7 @@ function B_LOG_print_message() {
   fi
   B_LOG_LOG_MESSAGE="${message}"
   B_LOG_get_log_level_info "${log_level}" || true
-  B_LOG_convert_template ${LOG_FORMAT} || true
+  B_LOG_convert_template "${LOG_FORMAT}" || true
   # output to stdout
   if [ "${B_LOG_LOG_VIA_STDOUT}" = true ]; then
     echo -ne "$LOG_PREFIX"
@@ -323,9 +330,9 @@ function B_LOG_print_message() {
     echo -e "$LOG_SUFFIX"
   fi
   # output to file
-  if [ ! -z "${B_LOG_LOG_VIA_FILE}" ]; then
-    file_directory=$(dirname $B_LOG_LOG_VIA_FILE)
-    if [ ! -z "${file_directory}" ]; then
+  if [ -n "${B_LOG_LOG_VIA_FILE}" ]; then
+    file_directory=$(dirname "$B_LOG_LOG_VIA_FILE")
+    if [ -n "${file_directory}" ]; then
       if [ ! -d "${B_LOG_LOG_VIA_FILE%/*}" ]; then # check directory
         # directory does not exist
         mkdir -p "${file_directory}" || err_ret_code=$?
@@ -347,35 +354,35 @@ function B_LOG_print_message() {
       if [ "${B_LOG_LOG_VIA_FILE_SUFFIX}" = true ]; then
         message="${message}${LOG_SUFFIX}"
       fi
-      echo -e "${message}" >>${B_LOG_LOG_VIA_FILE} || true
+      echo -e "${message}" >>"${B_LOG_LOG_VIA_FILE}" || true
     fi
   fi
   # output to syslog
-  if [ ! -z "${B_LOG_LOG_VIA_SYSLOG}" ]; then
-    logger ${B_LOG_LOG_VIA_SYSLOG} "${B_LOG_CONVERTED_TEMPLATE_STRING}" || err_ret_code=$?
+  if [ -n "${B_LOG_LOG_VIA_SYSLOG}" ]; then
+    logger "${B_LOG_LOG_VIA_SYSLOG}" "${B_LOG_CONVERTED_TEMPLATE_STRING}" || err_ret_code=$?
     B_LOG_ERR "${err_ret_code}" "Error while logging with syslog. Where these flags ok: '${B_LOG_LOG_VIA_SYSLOG}'"
   fi
 }
 
 # Define commands
 # Setting of log level
-function LOG_LEVEL_OFF() { B_LOG --log-level ${LOG_LEVEL_OFF} "$@"; }
-function LOG_LEVEL_FATAL() { B_LOG --log-level ${LOG_LEVEL_FATAL} "$@"; }
-function LOG_LEVEL_ERROR() { B_LOG --log-level ${LOG_LEVEL_ERROR} "$@"; }
-function LOG_LEVEL_WARN() { B_LOG --log-level ${LOG_LEVEL_WARN} "$@"; }
-function LOG_LEVEL_NOTICE() { B_LOG --log-level ${LOG_LEVEL_NOTICE} "$@"; }
-function LOG_LEVEL_INFO() { B_LOG --log-level ${LOG_LEVEL_INFO} "$@"; }
-function LOG_LEVEL_DEBUG() { B_LOG --log-level ${LOG_LEVEL_DEBUG} "$@"; }
-function LOG_LEVEL_TRACE() { B_LOG --log-level ${LOG_LEVEL_TRACE} "$@"; }
-function LOG_LEVEL_ALL() { B_LOG --log-level ${LOG_LEVEL_ALL} "$@"; }
+function LOG_LEVEL_OFF() { B_LOG --log-level "${LOG_LEVEL_OFF}" "$@"; }
+function LOG_LEVEL_FATAL() { B_LOG --log-level "${LOG_LEVEL_FATAL}" "$@"; }
+function LOG_LEVEL_ERROR() { B_LOG --log-level "${LOG_LEVEL_ERROR}" "$@"; }
+function LOG_LEVEL_WARN() { B_LOG --log-level "${LOG_LEVEL_WARN}" "$@"; }
+function LOG_LEVEL_NOTICE() { B_LOG --log-level "${LOG_LEVEL_NOTICE}" "$@"; }
+function LOG_LEVEL_INFO() { B_LOG --log-level "${LOG_LEVEL_INFO}" "$@"; }
+function LOG_LEVEL_DEBUG() { B_LOG --log-level "${LOG_LEVEL_DEBUG}" "$@"; }
+function LOG_LEVEL_TRACE() { B_LOG --log-level "${LOG_LEVEL_TRACE}" "$@"; }
+function LOG_LEVEL_ALL() { B_LOG --log-level "${LOG_LEVEL_ALL}" "$@"; }
 
 # Log commands
 function B_LOG_MESSAGE() { B_LOG_print_message "$@"; }
 
-function FATAL() { B_LOG_print_message ${LOG_LEVEL_FATAL} "$@"; }
-function ERROR() { B_LOG_print_message ${LOG_LEVEL_ERROR} "$@"; }
-function WARN() { B_LOG_print_message ${LOG_LEVEL_WARN} "$@"; }
-function NOTICE() { B_LOG_print_message ${LOG_LEVEL_NOTICE} "$@"; }
-function INFO() { B_LOG_print_message ${LOG_LEVEL_INFO} "$@"; }
-function DEBUG() { B_LOG_print_message ${LOG_LEVEL_DEBUG} "$@"; }
-function TRACE() { B_LOG_print_message ${LOG_LEVEL_TRACE} "$@"; }
+function FATAL() { B_LOG_print_message "${LOG_LEVEL_FATAL}" "$@"; }
+function ERROR() { B_LOG_print_message "${LOG_LEVEL_ERROR}" "$@"; }
+function WARN() { B_LOG_print_message "${LOG_LEVEL_WARN}" "$@"; }
+function NOTICE() { B_LOG_print_message "${LOG_LEVEL_NOTICE}" "$@"; }
+function INFO() { B_LOG_print_message "${LOG_LEVEL_INFO}" "$@"; }
+function DEBUG() { B_LOG_print_message "${LOG_LEVEL_DEBUG}" "$@"; }
+function TRACE() { B_LOG_print_message "${LOG_LEVEL_TRACE}" "$@"; }

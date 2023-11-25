@@ -22,7 +22,7 @@ See [this](./01_basic_example.sh) file.
 ```bash
 #!/usr/bin/env bash
 # example: 01 - basic example
-source "$(dirname "$( realpath ${BASH_SOURCE[0]} )" )"/../b-log.sh  # include the script
+source "$(dirname "$( realpath ${BASH_SOURCE[0]} )" )"/../src/bash_logger.sh
 LOG_LEVEL_ALL               # set log level to all
 FATAL   "fatal level"
 ERROR   "error level"
@@ -43,7 +43,7 @@ See [this](./02_log_to_file_and_syslog.sh) file.
 ```bash
 #!/usr/bin/env bash
 # example: 02 - log to file and syslog
-source "$(dirname "$( realpath ${BASH_SOURCE[0]} )" )"/../b-log.sh  # include the script
+source "$(dirname "$( realpath ${BASH_SOURCE[0]} )" )"/../src/bash_logger.sh
 LOG_LEVEL_ALL               # set log level to all
 B_LOG --file log.txt --file-prefix-enable --file-suffix-enable
 B_LOG --syslog '--tag b-log_example_02'
@@ -68,7 +68,8 @@ See [this](./03_custom_level_and_template.sh) file.
 ```bash
 #!/usr/bin/env bash
 # example: 03 - custom log level and template
-source "$(dirname "$( realpath ${BASH_SOURCE[0]} )" )"/../b-log.sh  # include the script
+# include the script
+source "$(dirname "$( realpath ${BASH_SOURCE[0]} )" )"/../src/bash_logger.sh
 LOG_LEVEL_ALL               # set log level to all
 FATAL   "fatal level"
 ERROR   "error level"
@@ -82,7 +83,8 @@ TRACE   "trace level"
 # level name: EXAMPLE
 # template: timestamp(only time) name [message]
 B_LOG --date-format "%H:%M:%S.%N" # set timestamp format
-LOG_LEVELS+=("50" "EXAMPLE" "@12:1@ @2@ [@5@]" "\e[37m" "\e[0m") # add custom log level
+# add custom log level
+LOG_LEVELS+=("50" "EXAMPLE" "@12:1@ @2@ [@5@]" "\e[37m" "\e[0m")
 B_LOG_MESSAGE 50 "example log message"
 WARN "all the normal levels still work, with the new date-format of course"
 ```
@@ -97,7 +99,7 @@ Terminal output:
 
 ```bash
 # relative include b-log from file
-source "$(dirname "$( realpath ${BASH_SOURCE[0]} )" )"/<relative path to b-log>/b-log.sh
+source "$(dirname "$( realpath ${BASH_SOURCE[0]} )" )"/<relative path to b-log>/bash_logger.sh
 ```
 
 ### Parameters
@@ -233,7 +235,8 @@ If this is not set, the length that is needed for the string is used.
 
 The following parameters are supported at this moment:
 
-1. time-stamp (this uses the date-format that can be customized via the `--date-format` parameter)
+1. time-stamp (this uses the date-format that can be customized via
+   the `--date-format` parameter)
 1. log level name
 1. function name
 1. line number

@@ -3,12 +3,13 @@ set -e          # kill script if a command fails
 set -o nounset  # unset values give error
 set -o pipefail # prevents errors in a pipeline from being masked
 
-source "$(dirname "$(realpath ${BASH_SOURCE[0]})")"/../b-log.sh # include the script
-LOG_LEVEL_ALL                                                   # set log level to all
+# shellcheck disable=SC1091
+source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"/../src/bash_logger.sh # include the script
+LOG_LEVEL_ALL                                                               # set log level to all
 
 # Register templates
 for templateNr in {1..7}; do
-  LOG_LEVELS+=("$((1000 + ${templateNr}))" "T${templateNr}" "@5@ @${templateNr}@" "" "")
+  LOG_LEVELS+=("$((1000 + templateNr))" "T${templateNr}" "@5@ @${templateNr}@" "" "")
 done
 
 echo "~~ Templates ~~"
