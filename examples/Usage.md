@@ -38,7 +38,7 @@ TRACE   "trace level"
 ```
 
 Terminal output:
-![Example 01](./examples/01_basic_example.png "Example 01 output")
+![Example 01](./01_basic_example.png "Example 01 output")
 
 ### 02 Log to file and syslog
 
@@ -63,7 +63,7 @@ tail -n 7 /var/log/syslog
 ```
 
 Terminal output:
-![Example 02](./examples/02_log_to_file_and_syslog.png "Example 02 output")
+![Example 02](./02_log_to_file_and_syslog.png "Example 02 output")
 
 ### 03 Custom template
 
@@ -92,7 +92,7 @@ WARN "all the normal levels still work, with the new date-format of course"
 ```
 
 Terminal output:
-![Example 03](./examples/03_custom_level_and_template.png "Example 03 output")
+![Example 03](./03_custom_level_and_template.png "Example 03 output")
 
 ## Usage
 
