@@ -15,10 +15,11 @@ source "$SCRIPT_DIR/bash_logger.sh"
 # You can silence the console logging with (by default it is true):
 #B_LOG --stdout false # disable logging over stdout
 
-FATAL "fatal level"
-ERROR "error level"
-WARN "warning level"
-NOTICE "notice level"
-INFO "info level"
-DEBUG "debug level"
-TRACE "trace level"
+# Example log messages.
+# FATAL "fatal level"
+# ERROR "error level"
+# WARN "warning level"
+# NOTICE "notice level"
+# INFO "info level"
+# DEBUG "debug level"
+# TRACE "trace level"
