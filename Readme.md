@@ -1,4 +1,4 @@
-# Unit tested Bash project template with Pre-commit
+# Bash-Log Tool
 
 Based on the idea of [b-log](https://github.com/idelsink/b-log).
 Which is based on the idea of [log.sh](https://github.com/livibetter-backup/log.sh).
@@ -25,12 +25,12 @@ The instructions below explain how to include this dependency in other repos.
 # Remove the submodules if they were still in the repo.
 git rm --cached dependencies/bash-log/bash-log
 
-# Remove and re-create the submodule directory.
-rm -r dependencies/bash-log/bash-log
-mkdir -p dependencies/bash-log/bash-log
+# Remove and create a directory for the dependencies.
+rm -r dependencies
+mkdir -p dependencies
 
 # (Re) add the BATS submodules to this repository.
-git submodule add --force https://github.com/hiveminds/bash-log dependencies/bash-log/bash-log
+git submodule add --force https://github.com/HiveMinds/bash-log dependencies/bash-log
 
 # Update all submodules
 git submodule update --remote --recursive
