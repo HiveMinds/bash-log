@@ -1,11 +1,9 @@
 #!/bin/bash
-
+SCRIPT_PATH=$(dirname "$(readlink -f "$0")")
 function load_functions() {
-  local script_dir
-  script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
   # shellcheck disable=SC1091
-  source "$script_dir/bash_logger.sh"
+  source "$SCRIPT_PATH/bash_logger.sh"
 
 }
 load_functions

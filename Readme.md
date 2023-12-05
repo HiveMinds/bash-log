@@ -19,7 +19,7 @@ The instructions below explain how to include this dependency in other repos.
  url = https://github.com/hiveminds/bash-log
 ```
 
-- Create a file named `install_dependencies.sh` with content:
+- Create a file named `install-dependencies.sh` with content:
 
 ```sh
 # Remove the submodules if they were still in the repo.
@@ -51,7 +51,7 @@ After including this dependency you can use the functions in this module like:
 #!/bin/bash
 
 # Load the installer dependency.
-source dependencies/bash-log/src/main.sh
+source "$REPO_ROOT_PATH/"/bash-log/src/main.sh
 # set log level to all, otherwise, NOTICE, INFO, DEBUG, TRACE won't be logged.
 LOG_LEVEL_ALL
 
