@@ -12,8 +12,8 @@ rm -r "$SCRIPT_PATH/test/libs"
 mkdir -p "$SCRIPT_PATH/test/libs"
 
 # Remove and create a directory for the dependencies.
-rm -r dependencies
-mkdir -p dependencies
+rm -r "$SCRIPT_PATH/dependencies"
+mkdir -p "$SCRIPT_PATH/dependencies"
 
 # (Re) add the BATS submodules to this repository.
 git submodule add --force https://github.com/sstephenson/bats "$SCRIPT_PATH/test/libs/bats"

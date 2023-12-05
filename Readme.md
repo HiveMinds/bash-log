@@ -26,8 +26,8 @@ The instructions below explain how to include this dependency in other repos.
 git rm --cached dependencies/bash-log/bash-log
 
 # Remove and create a directory for the dependencies.
-rm -r dependencies
-mkdir -p dependencies
+rm -r "$SCRIPT_PATH/dependencies"
+mkdir -p "$SCRIPT_PATH/dependencies"
 
 # (Re) add the BATS submodules to this repository.
 git submodule add --force https://github.com/HiveMinds/bash-log dependencies/bash-log
