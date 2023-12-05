@@ -1,5 +1,6 @@
 #!/bin/bash
-export bash_log_is_loaded=true
+# shellcheck disable=SC2034
+bash_log_is_loaded=true
 
 START_TOR_AT_BOOT_SRC_PATH=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 
