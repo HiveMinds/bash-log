@@ -29,14 +29,6 @@ function load_required_dependency() {
   dependency_or_parent_path="$(get_dependency_or_parent_path "$calling_repo_root_path")"
   local dependency_dir="$calling_repo_root_path/$dependency_or_parent_path/$dependency_name"
 
-  echo ""
-  echo ""
-  echo "calling_repo_root_path=$calling_repo_root_path"
-  echo "dependency_or_parent_path=$dependency_or_parent_path"
-  echo ""
-  echo "dependency_name=$dependency_name"
-  echo "dependency_dir=$dependency_dir"
-
   if [ "$(dependency_is_loaded "$dependency_name")" == "LOADED" ]; then
     echo "Parent dependency $dependency_name is already loaded."
   else
