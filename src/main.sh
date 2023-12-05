@@ -1,6 +1,6 @@
 #!/bin/bash
 
-START_TOR_AT_BOOT_SRC_PATH=$(dirname "$(readlink -f "$0")")
+START_TOR_AT_BOOT_SRC_PATH=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 function load_functions() {
 
   # shellcheck disable=SC1091
