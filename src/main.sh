@@ -2,6 +2,8 @@
 export bash_log_is_loaded=true
 
 START_TOR_AT_BOOT_SRC_PATH=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+
+NOTICE "Loading from:$START_TOR_AT_BOOT_SRC_PATH"
 function load_functions() {
 
   # shellcheck disable=SC1091
