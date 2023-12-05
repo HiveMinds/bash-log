@@ -18,6 +18,7 @@ function get_dependency_or_parent_path() {
   else
     dependency_or_parent_path="dependencies"
   fi
+  echo "$dependency_or_parent_path"
 }
 
 function load_required_dependency() {
@@ -26,7 +27,8 @@ function load_required_dependency() {
 
   local dependency_or_parent_path
   dependency_or_parent_path="$(get_dependency_or_parent_path "$calling_repo_root_path")"
-
+  echo "dependency_or_parent_path=$dependency_or_parent_path"
+  echo "calling_repo_root_path=$calling_repo_root_path"
   local dependency_dir="$calling_repo_root_path/$dependency_or_parent_path/$dependency_name"
   if [ ! -d "$dependency_dir" ]; then
     echo "ERROR: $dependency_dir is not found in required dependencies."
@@ -47,7 +49,7 @@ function load_parent_dependency() {
   if [ ! -d "$parent_dep_dir" ]; then
     # Must load the dependency as any other fellow dependency if it is not
     # a parent dependency.
-    load_required_dependency "$dependency_or_parent_path" "$parent_dep"
+    load_required_dependency "$calling_repo_root_path" "$parent_dep"
   else
     if [ ! -d "$parent_dep_dir/src" ]; then
       echo "ERROR: $parent_dep_dir/src is not found in parent dependencies."
